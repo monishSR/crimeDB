@@ -1,0 +1,12 @@
+strict digraph  {
+	graph [rankdir=LR];
+	q0	 [color=red];
+	q0 -> "q1, q2, q3"	 [label="a,b"];
+	qi	 [shape=point];
+	qi -> q0	 [label=start];
+	q4	 [color="green:green",
+		peripheries=2];
+	q4 -> q4	 [label="a,b"];
+	"q1, q2, q3" -> q4	 [label=b];
+	"q1, q2, q3" -> "q1, q2, q3"	 [label=a];
+}

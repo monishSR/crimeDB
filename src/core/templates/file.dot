@@ -1,0 +1,15 @@
+strict digraph  {
+	"a, e"	 [color=red];
+	"a, e" -> "b, h"	 [label=0];
+	"a, e" -> "d, f"	 [label=1];
+	c	 [color="black:green",
+		peripheries=2];
+	c -> "a, e"	 [label=0];
+	c -> c	 [label=1];
+	"b, h" -> c	 [label=1];
+	"b, h" -> g	 [label=0];
+	"d, f" -> c	 [label=0];
+	"d, f" -> g	 [label=1];
+	g -> "a, e"	 [label=1];
+	g -> g	 [label=0];
+}

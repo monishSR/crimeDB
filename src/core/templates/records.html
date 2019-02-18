@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+
+<head>
+<style>
+    p{
+        font-size: x-large;
+    }
+table, tr, th {
+    border: 5px solid #000;
+    text-align: left;
+    font-size: large;
+}
+
+table {
+    border: 5px solid #000;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: large;
+}
+
+th, tr {
+    border: 5px solid black;
+    padding: 15px;
+}
+</style>
+</head>
+
+<p align="center">CRIMINAL</p><br>
+<table align="center" style="width:40%" border="1" cellspacing="2" cellpadding="0" class="table">
+<tr><th>SSN </th><th> {{record.SSN}}</th></tr>
+<tr><th>Name </th><th> {{record.first_name}} {{record.middle_name}} {{record.last_name}}</th></tr>
+<tr><th>DOB </th><th> {{record.dob}}</th></tr>
+<tr><th>Sex </th><th> {{record.sex}}</th></tr>
+<tr><th>Ethnicity </th><th> {{record.ethnicity}}</th></tr>
+<tr><th>Height </th><th> {{record.height_in_ft}} ft</th></tr>
+<tr><th>Weight </th><th> {{record.weight_in_kg}} kg</th></tr>
+<tr><th>Hair Color </th><th> {{record.hair_colour}}</th></tr>
+<tr><th>Distinctive Mark </th><th> {{record.dist_mark}}</th></tr>
+<tr><th>Address </th><th> {{record.address}}</th></tr>
+<tr><th>Status </th><th> {{record.status}}</th></tr>
+<tr><th>Occupation </th><th> {{record.occupation}}</th></tr>
+</table>
+<br>
+<br>
+
+<p align="center">CASES</p><br>
+<table align="center" style="width:40%" border="1" cellspacing="2" cellpadding="2x 0" class="table">
+
+{% for case in cases %}
+    <tr><th>ID </th><th> {{case.id}}</th></tr>
+    <tr><th>Case </th><th> {{case.description}}</th></tr>
+    <tr><th> Location</th><th>{{case.location}}</th></tr>
+{% endfor %}
+</table>
+    <br>
+<br>
+
+<p align="center">CRIMES COMMITTED</p><br>
+<table align="center" style="width:40%" border="1" cellspacing="2" cellpadding="0" class="table">
+    {% for crime in crimes %}<tr><th>Crime ID</th><th>{{ crime.id }}</th></tr>
+        <tr><th> Crime</th><th>{{ crime.type }}</th>{% endfor %}</tr>
+</table>
+<br>
+<br>
+
+<p align="center">DETECTIVE</p><br>
+<table align="center" style="width:40%" border="1" cellspacing="2" cellpadding="0" class="table">
+{% for detective in detectives %}
+<tr><th>ID </th><th>{{ detective.id }}</th></tr>
+<tr><th>Name </th><th>{{ detective.first_name }} {{ detective.last_name }}</th></tr>
+<tr><th>Contact Number </th><th>{{ detective.contact_no }}</th></tr>
+{%  endfor %}
+</table>
+<br>
+<br>
+{% if dependents != None %}
+
+<p align="center">DEPENDENTS</p><br>
+<table align="center" style="width:40%" border="1" cellspacing="2" cellpadding="0" class="table">
+{% for dependent in dependents %}
+<tr><th>Name </th><th> {{ dependent.first_name }} {{ dependent.last_name }}</th></tr>
+<tr><th>Relation </th><th> {{ dependent.relationship }}</th></tr>
+<tr><th>Contact Number </th><th> {{ dependent.contact_no }}</th></tr>
+{% endfor %}
+</table>
+{% endif %}
+{% endblock %}

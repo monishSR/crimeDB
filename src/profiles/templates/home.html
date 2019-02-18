@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+<div class="col-md-4">
+        <a href="#"><img src="{%static 'img/searchfinal.jpg'%}" class="img-responsive" ></a>
+        <h2>Search</h2>
+          <p>Search for the required record through thousands of records by matching for single or multiple attributes linked to the information you ned</p>
+          
+          <p><a class="btn btn-default" href="{% url 'search' %}" role="button">Start Search »</a></p>
+        </div>
+  <div class="col-md-4">
+        <a href="#"><img src="{%static 'img/mugshotfinal.jpg'%}" class="img-responsive" ></a>
+        <h2>Criminal History</h2>
+          <p>Get all the details of the criminal you want to know about along with their entire criminal history and the details of people linked to them. </p>
+          
+          <p><a class="btn btn-default" href="{% url 'search' %}" role="button">View History »</a></p>
+        </div>
+  <div class="col-md-4">
+        <a href="#"><img src="{%static 'img/chartfinal.jpg'%}" class="img-responsive" ></a>
+        <h2>Analysis</h2>
+          <p>Get a Location-wise and Crime-wise statistical analysis of all the criminlas and cases in the database at the click of a button.</p>
+          
+          <p><a class="btn btn-default" href="{% url 'analyse' %}" role="button">Analyze »</a></p>
+        </div>
+  
+  
+</div>
+
+<br>
+
+<div class="row">
+        <div class="col-md-8">
+          <h2>Who Are You?</h2>
+            <h4><p>Are you a law student looking to do some research or are you a law Enforcer trying to solv a case? If, you do not have an account, please contact the Administrator</p></h4>
+        </div>
+        
+        <div class="col-md-4">
+        {%  if request.user.is_authenticated %}
+        <h3>Hello {{request.user}}</h3>
+        {% else %}
+
+          <form class="login" method="POST" action="{% url 'account_login' %}">
+        
+  {% csrf_token %}
+
+<div id="div_id_login" class="form-group"> <label for="id_login" class="control-label  requiredField">
+                Login<span class="asteriskField">*</span> </label> <div class="controls "> <input  class="textinput textInput form-control" id="id_login" name="login" placeholder="Username or e-mail" required="" type="text"> </div> </div> <div id="div_id_password" class="form-group"> <label for="id_password" class="control-label  requiredField">
+                Password<span class="asteriskField">*</span> </label> <div class="controls "> <input class="textinput textInput form-control" id="id_password" name="password" placeholder="Password" required="" type="password"> </div> </div> <div class="form-group"> <div id="div_id_remember" class="checkbox"> <label for="id_remember" class=""> <input class="checkboxinput" id="id_remember" name="remember" type="checkbox">
+                    Remember Me
+                </label> </div> </div>
+
+  
+  <a class="btn btn-link button secondaryAction" href="{%  url 'account_reset_password' %}">Forgot Password?</a>
+  
+  <button class="btn btn-default primaryAction" type="submit"  >Sign In</button>
+</form>
+{% endif %}
+        </div>
+      </div>
+
+
+{% endblock %}
+
+
+{% block jumbotron %}
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron" style="background-color: #4e5d6c66;">
+        <h1>Criminal Record Database</h1>
+        <p>Here, you can find records on criminals, cases connected to them, information on the detectives working on those cases and get statistical information on the crimes bing committed.</p>
+      </div>
+{% endblock %}
+
+
+ {% block styles %}
+ <style >
+.jumbotron {
+	text-align: center;
+}
+ </style>
+	{% endblock %}

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+h1 {color:red;}
+select option {
+    margin: 20px;
+    font-size: 20px;
+    color: black;
+    
+}
+button, select {
+    text-transform: none;
+    color: black;
+}
+p{
+	font-size: x-large;
+}
+</style>
+  <title>Analysis-CrimeDB</title>
+</head>
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<p>Analysis by location</p>
+<div class="container1" align='left'>
+{% if form %}
+<form action='' method="POST">{% csrf_token %}
+	<table>
+		<select name="dropdown" onchange="this.form.submit()" style="color:black;">
+
+			{% for location in locations %}
+			<option value="{{location}}" >{{location}}</option>
+			{% endfor%}
+		</select>
+	<!--<input type="submit" value="Change location"> -->
+	</table>
+	</form>
+</div>
+<br>
+<p>OR</p>
+<br>
+{% endif%}
+<p>Analysis by crime</p>
+<div class="container2" align="left">
+{% if form1 %}
+<form action='' method="POST">{% csrf_token %}
+  <table>
+    <select name="dropdown1" onchange="this.form.submit()" style="color:black;">
+
+      {% for crime in crimes %}
+      <option value="{{crime}}" >{{crime}}</option>
+      {% endfor%}
+    </select>
+  <!--<input type="submit" value="Change location"> -->
+  </table>
+{% endif%}
+</form>
+</div>
+{% if addr%}
+{% if flag %}
+
+<div align="center">
+<h1>Crime Statistics Of {{string}}</h1>
+</div>
+  <div class="container">
+    <canvas id="Chart1"></canvas>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <canvas id="Chart2"></canvas>
+  </div>
+
+{% endif %}
+  <script>
+    let Chart1 = document.getElementById('Chart1').getContext('2d');
+
+	
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#777';
+
+    let massPopChart = new Chart(Chart1, {
+      type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+    labels: ["Aiding & Abetting / Accessory","Assault / Battery","Drug Possession","Burglary","Theft / Larceny","Arson","Aggravated Assault / Battery","Attempt","Bribery","Child Abandonment","Child Abuse","Child Pornography","Computer Crime","Conspiracy","Credit / Debit Card Fraud","Criminal Contempt of Court","Cyber Bullying","Disorderly Conduct","Disturbing the Peace","Domestic Violence","Drug Manufacturing and Cultivation","Drug Trafficking / Distribution","DUI / DWI","Embezzlement","Extortion","Forgery","Fraud","Harassment","Hate Crimes","Homicide","Indecent Exposure","Identity Theft","Insurance Fraud","Kidnapping","Manslaughter: Involuntary","Manslaughter: Voluntary","Medical Marijuana","MIP: A Minor in Possession","Money Laundering","Murder: First-degree","Murder: Second-degree","Open Container Law","Perjury","Probation Violation","Prostitution","Public Intoxication","Pyramid Schemes","Racketeering / RICO","Rape","Robbery","Securities Fraud","Sexual Assault","Shoplifting","Solicitation","Stalking","Statutory Rape","Tax Evasion / Fraud","Telemarketing Fraud","Vandalism","White Collar Crimes","Wire Fraud"],
+    datasets: [{
+      label: 'Number of crimes',
+      data: {{data}},
+      borderColor : 'rgb(255,255,255,0.2)',
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba( 182,163,106, 0.6)',
+        'rgba( 121,212,227 , 0.6)',
+        'rgba( 30,159,37 , 0.6)',
+        'rgba( 95,135,158 , 0.6)',
+        'rgba( 94,216,145 , 0.6)',
+        'rgba(239,138,137  , 0.6)',
+        'rgba(229,126,100  , 0.6)',
+        'rgba(12,160,137  , 0.6)',
+        'rgba( 93,25,22 , 0.6)',
+        'rgba(  48,17,22 , 0.6)',
+        'rgba(145,28,182  , 0.6)',
+        'rgba( 176,144,208 , 0.6)',
+        'rgba( 72,254,182 , 0.6)',
+        'rgba( 160,172,63 , 0.6)',
+        'rgba( 252,165,92 , 0.6)',
+        'rgba( 79,43,132, 0.6)',
+        'rgba( 121,9,82, 0.6)',
+        'rgba( 154,137,8 , 0.6)',
+        'rgba( 11,115,34 , 0.6)',
+        'rgba( 10,127,122 , 0.6)',
+        'rgba( 15,205,37, 0.6)',
+        'rgba( 21,14,120 , 0.6)',
+        'rgba( 241,166,113 , 0.6)',
+        'rgba(252,15,37  , 0.6)',
+        'rgba( 108,104,61 , 0.6)',
+        'rgba( 0,196,112 , 0.6)',
+        'rgba( 34,131,239 , 0.6)',
+        'rgba( 88,24,98 , 0.6)',
+        'rgba( 214,178,87 , 0.6)',
+        'rgba( 50,28,136, 0.6)',
+        'rgba( 108,58,119 , 0.6)',
+        'rgba( 217,25,60 , 0.6)',
+        'rgba( 44,38,86 , 0.6)',
+        'rgba( 140,46,29 , 0.6)',
+        'rgba( 188,199,216 , 0.6)',
+        'rgba( 171,201,14 , 0.6)',
+        'rgba( 87,51,189 , 0.6)',
+        'rgba( 11,142,205 , 0.6)',
+        'rgba( 148,63,130, 0.6)',
+        'rgba(246,181,147  , 0.6)',
+        'rgba(  20,39,104 , 0.6)',
+        'rgba( 175,216,232, 0.6)',
+        'rgba( 8,241,226 , 0.6)',
+        'rgba( 64,190,153 , 0.6)',
+        'rgba( 248,184,209 , 0.6)',
+        'rgba( 133,7,21 , 0.6)',
+        'rgba( 194,124,5  , 0.6)',
+        'rgba( 148,22,188  , 0.6)',
+        'rgba(  114,131,152 , 0.6)',
+        'rgba( 239,134,184  , 0.6)',
+        'rgba( 56,11,89  , 0.6)',
+        'rgba(26,54,35 , 0.6)',
+
+      ]
+    }]
+  },
+  
+      options:{
+        title: {
+        display: true,
+        position: "top",
+        text: "Pie Chart",
+        fontSize:25,
+        fontColor: 'rgb(255, 255,255,1)'
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#fff'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+Chart.pluginService.register({
+            beforeDraw: function (chart, easing) {
+                if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
+                    var helpers = Chart.helpers;
+                    var ctx = chart.chart.ctx;
+                    var chartArea = chart.chartArea;
+
+                    ctx.save();
+                    ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+                    ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+                    ctx.restore();
+                }
+            }
+        });
+let Chart2 = document.getElementById('Chart2').getContext('2d');
+
+let massPopChart2 = new Chart(Chart2, {
+      type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+    labels: ["Aiding & Abetting / Accessory","Assault / Battery","Drug Possession","Burglary","Theft / Larceny","Arson","Aggravated Assault / Battery","Attempt","Bribery","Child Abandonment","Child Abuse","Child Pornography","Computer Crime","Conspiracy","Credit / Debit Card Fraud","Criminal Contempt of Court","Cyber Bullying","Disorderly Conduct","Disturbing the Peace","Domestic Violence","Drug Manufacturing and Cultivation","Drug Trafficking / Distribution","DUI / DWI","Embezzlement","Extortion","Forgery","Fraud","Harassment","Hate Crimes","Homicide","Indecent Exposure","Identity Theft","Insurance Fraud","Kidnapping","Manslaughter: Involuntary","Manslaughter: Voluntary","Medical Marijuana","MIP: A Minor in Possession","Money Laundering","Murder: First-degree","Murder: Second-degree","Open Container Law","Perjury","Probation Violation","Prostitution","Public Intoxication","Pyramid Schemes","Racketeering / RICO","Rape","Robbery","Securities Fraud","Sexual Assault","Shoplifting","Solicitation","Stalking","Statutory Rape","Tax Evasion / Fraud","Telemarketing Fraud","Vandalism","White Collar Crimes","Wire Fraud"],
+    datasets: [{
+      label: 'Number of crimes',
+      data: {{data}},
+      borderColor : "#fff",
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba( 182,163,106, 0.6)',
+        'rgba( 121,212,227 , 0.6)',
+        'rgba( 30,159,37 , 0.6)',
+        'rgba( 95,135,158 , 0.6)',
+        'rgba( 94,216,145 , 0.6)',
+        'rgba(239,138,137  , 0.6)',
+        'rgba(229,126,100  , 0.6)',
+        'rgba(12,160,137  , 0.6)',
+        'rgba( 93,25,22 , 0.6)',
+        'rgba(  48,17,22 , 0.6)',
+        'rgba(145,28,182  , 0.6)',
+        'rgba( 176,144,208 , 0.6)',
+        'rgba( 72,254,182 , 0.6)',
+        'rgba( 160,172,63 , 0.6)',
+        'rgba( 252,165,92 , 0.6)',
+        'rgba( 79,43,132, 0.6)',
+        'rgba( 121,9,82, 0.6)',
+        'rgba( 154,137,8 , 0.6)',
+        'rgba( 11,115,34 , 0.6)',
+        'rgba( 10,127,122 , 0.6)',
+        'rgba( 15,205,37, 0.6)',
+        'rgba( 21,14,120 , 0.6)',
+        'rgba( 241,166,113 , 0.6)',
+        'rgba(252,15,37  , 0.6)',
+        'rgba( 108,104,61 , 0.6)',
+        'rgba( 0,196,112 , 0.6)',
+        'rgba( 34,131,239 , 0.6)',
+        'rgba( 88,24,98 , 0.6)',
+        'rgba( 214,178,87 , 0.6)',
+        'rgba( 50,28,136, 0.6)',
+        'rgba( 108,58,119 , 0.6)',
+        'rgba( 217,25,60 , 0.6)',
+        'rgba( 44,38,86 , 0.6)',
+        'rgba( 140,46,29 , 0.6)',
+        'rgba( 188,199,216 , 0.6)',
+        'rgba( 171,201,14 , 0.6)',
+        'rgba( 87,51,189 , 0.6)',
+        'rgba( 11,142,205 , 0.6)',
+        'rgba( 148,63,130, 0.6)',
+        'rgba(246,181,147  , 0.6)',
+        'rgba(  20,39,104 , 0.6)',
+        'rgba( 175,216,232, 0.6)',
+        'rgba( 8,241,226 , 0.6)',
+        'rgba( 64,190,153 , 0.6)',
+        'rgba( 248,184,209 , 0.6)',
+        'rgba( 133,7,21 , 0.6)',
+        'rgba( 194,124,5  , 0.6)',
+        'rgba( 148,22,188  , 0.6)',
+        'rgba(  114,131,152 , 0.6)',
+        'rgba( 239,134,184  , 0.6)',
+        'rgba( 56,11,89  , 0.6)',
+        'rgba(26,54,35 , 0.6)',
+
+      ]
+    }]
+  },
+  
+      options:{
+
+        title: {
+        display: true,
+        position: "top",
+        text: "Line Graph",
+        fontSize:25,
+        fontColor: 'rgb(255, 255,255,1)'
+        },
+        
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#fff'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        },
+        
+    scales: {
+            yAxes: [{
+                ticks: {
+                    fontColor: "white",
+                    fontSize: 18,
+                    stepSize: 1,
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontColor: "white",
+                    fontSize: 14,
+                    stepSize: 1,
+                    beginAtZero: true
+                }
+            }]
+        },
+
+        
+      }
+    });
+
+  </script>
+  {% endif %}
+
+{% if not addr %}
+{% if flag%}
+
+<div align="center">
+<h1>Crime Statistics Of {{string}}</h1>
+</div>
+
+  <div class="container">
+    <canvas id="myChart"></canvas>
+  </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <div class="container">
+    <canvas id="Chart2"></canvas>
+  </div>
+
+  <script>
+    let myChart = document.getElementById('myChart').getContext('2d');
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#777';
+
+    let massPopChart = new Chart(myChart, {
+      type:'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+    labels: ["Kingston upon Thames","Newham","Ealing","Kensington and  Chelsea" ,"Bexley","Brent","Harrow","Merton","Hillingdon","Waltham Forest","Lambeth","Richmond upon Thames" ,"Croydon","Westminster","Lewisham","Enfield","Hammersmith and Fulham" ,"Barking and Dagenham","Redbridge","Bromley","Barnet","Camden","Sutton","Southwark","Hackney","Havering","Wandsworth","Islington","Tower Hamlets","City of London","Greenwich","Haringey","Hounslow"],
+    datasets: [{
+      label: 'Number of crimes',
+      data: {{loc_data}},
+      borderColor : 'rgb(255,255,255,0.4)',
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba( 182,163,106, 0.6)',
+        'rgba( 121,212,227 , 0.6)',
+        'rgba( 30,159,37 , 0.6)',
+        'rgba( 95,135,158 , 0.6)',
+        'rgba( 94,216,145 , 0.6)',
+        'rgba(239,138,137  , 0.6)',
+        'rgba(229,126,100  , 0.6)',
+        'rgba(12,160,137  , 0.6)',
+        'rgba( 93,25,22 , 0.6)',
+        'rgba(  48,17,22 , 0.6)',
+        'rgba(145,28,182  , 0.6)',
+        'rgba( 176,144,208 , 0.6)',
+        'rgba( 72,254,182 , 0.6)',
+        'rgba( 160,172,63 , 0.6)',
+        'rgba( 252,165,92 , 0.6)',
+        'rgba( 79,43,132, 0.6)',
+        'rgba( 121,9,82, 0.6)',
+        'rgba( 154,137,8 , 0.6)',
+        'rgba( 11,115,34 , 0.6)',
+        'rgba( 10,127,122 , 0.6)',
+        'rgba( 15,205,37, 0.6)',
+        'rgba( 21,14,120 , 0.6)',
+        'rgba( 241,166,113 , 0.6)',
+        'rgba(252,15,37  , 0.6)',
+        'rgba( 108,104,61 , 0.6)',
+        'rgba( 0,196,112 , 0.6)',
+        'rgba( 34,131,239 , 0.6)',
+        'rgba( 88,24,98 , 0.6)',
+        'rgba( 214,178,87 , 0.6)',
+        'rgba( 50,28,136, 0.6)',
+        'rgba( 108,58,119 , 0.6)',
+        'rgba( 217,25,60 , 0.6)',
+        'rgba( 44,38,86 , 0.6)',
+        'rgba( 140,46,29 , 0.6)',
+        'rgba( 188,199,216 , 0.6)',
+        'rgba( 171,201,14 , 0.6)',
+        'rgba( 87,51,189 , 0.6)',
+        'rgba( 11,142,205 , 0.6)',
+        'rgba( 148,63,130, 0.6)',
+        'rgba(246,181,147  , 0.6)',
+        'rgba(  20,39,104 , 0.6)',
+        'rgba( 175,216,232, 0.6)',
+        'rgba( 8,241,226 , 0.6)',
+        'rgba( 64,190,153 , 0.6)',
+        'rgba( 248,184,209 , 0.6)',
+        'rgba( 133,7,21 , 0.6)',
+        'rgba( 194,124,5  , 0.6)',
+        'rgba( 148,22,188  , 0.6)',
+        'rgba(  114,131,152 , 0.6)',
+        'rgba( 239,134,184  , 0.6)',
+        'rgba( 56,11,89  , 0.6)',
+        'rgba(26,54,35 , 0.6)',
+
+      ]
+    }]
+  },
+      options:{
+        title:{
+          display:true,
+          text:'Pie Chart',
+          fontSize:25,
+          fontColor: 'rgb(255, 255,255,1)'
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#fff'
+          }
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      }
+    });
+Chart.pluginService.register({
+            beforeDraw: function (chart, easing) {
+                if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
+                    var helpers = Chart.helpers;
+                    var ctx = chart.chart.ctx;
+                    var chartArea = chart.chartArea;
+
+                    ctx.save();
+                    ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+                    ctx.fillRect(chartArea.left, chartArea.top, chartArea.right - chartArea.left, chartArea.bottom - chartArea.top);
+                    ctx.restore();
+                }
+            }
+        });
+
+let Chart2 = document.getElementById('Chart2').getContext('2d');
+
+    // Global Options
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#777';
+
+    let massPopChart2 = new Chart(Chart2, {
+      type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+      data:{
+    labels: ["Kingston upon Thames","Newham","Ealing","Kensington and  Chelsea" ,"Bexley","Brent","Harrow","Merton","Hillingdon","Waltham Forest","Lambeth","Richmond upon Thames" ,"Croydon","Westminster","Lewisham","Enfield","Hammersmith and Fulham" ,"Barking and Dagenham","Redbridge","Bromley","Barnet","Camden","Sutton","Southwark","Hackney","Havering","Wandsworth","Islington","Tower Hamlets","City of London","Greenwich","Haringey","Hounslow"],
+    datasets: [{
+      label: 'Number of crimes',
+      data: {{loc_data}},
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba(255, 159, 64, 0.6)',
+        'rgba(255, 99, 132, 0.6)',
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 206, 86, 0.6)',
+        'rgba(75, 192, 192, 0.6)',
+        'rgba(153, 102, 255, 0.6)',
+        'rgba( 182,163,106, 0.6)',
+        'rgba( 121,212,227 , 0.6)',
+        'rgba( 30,159,37 , 0.6)',
+        'rgba( 95,135,158 , 0.6)',
+        'rgba( 94,216,145 , 0.6)',
+        'rgba(239,138,137  , 0.6)',
+        'rgba(229,126,100  , 0.6)',
+        'rgba(12,160,137  , 0.6)',
+        'rgba( 93,25,22 , 0.6)',
+        'rgba(  48,17,22 , 0.6)',
+        'rgba(145,28,182  , 0.6)',
+        'rgba( 176,144,208 , 0.6)',
+        'rgba( 72,254,182 , 0.6)',
+        'rgba( 160,172,63 , 0.6)',
+        'rgba( 252,165,92 , 0.6)',
+        'rgba( 79,43,132, 0.6)',
+        'rgba( 121,9,82, 0.6)',
+        'rgba( 154,137,8 , 0.6)',
+        'rgba( 11,115,34 , 0.6)',
+        'rgba( 10,127,122 , 0.6)',
+        'rgba( 15,205,37, 0.6)',
+        'rgba( 21,14,120 , 0.6)',
+        'rgba( 241,166,113 , 0.6)',
+        'rgba(252,15,37  , 0.6)',
+        'rgba( 108,104,61 , 0.6)',
+        'rgba( 0,196,112 , 0.6)',
+        'rgba( 34,131,239 , 0.6)',
+        'rgba( 88,24,98 , 0.6)',
+        'rgba( 214,178,87 , 0.6)',
+        'rgba( 50,28,136, 0.6)',
+        'rgba( 108,58,119 , 0.6)',
+        'rgba( 217,25,60 , 0.6)',
+        'rgba( 44,38,86 , 0.6)',
+        'rgba( 140,46,29 , 0.6)',
+        'rgba( 188,199,216 , 0.6)',
+        'rgba( 171,201,14 , 0.6)',
+        'rgba( 87,51,189 , 0.6)',
+        'rgba( 11,142,205 , 0.6)',
+        'rgba( 148,63,130, 0.6)',
+        'rgba(246,181,147  , 0.6)',
+        'rgba(  20,39,104 , 0.6)',
+        'rgba( 175,216,232, 0.6)',
+        'rgba( 8,241,226 , 0.6)',
+        'rgba( 64,190,153 , 0.6)',
+        'rgba( 248,184,209 , 0.6)',
+        'rgba( 133,7,21 , 0.6)',
+        'rgba( 194,124,5  , 0.6)',
+        'rgba( 148,22,188  , 0.6)',
+        'rgba(  114,131,152 , 0.6)',
+        'rgba( 239,134,184  , 0.6)',
+        'rgba( 56,11,89  , 0.6)',
+        'rgba(26,54,35 , 0.6)',
+
+      ]
+    }]
+  },
+      options:{
+        title:{
+          display:true,
+          text:'Pie Chart',
+          fontSize:25,
+          fontColor: 'rgb(255, 255,255,1)'
+        },
+        legend:{
+          display:true,
+          position:'right',
+          labels:{
+            fontColor:'#fff'
+          }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontColor: "white",
+                    fontSize: 18,
+                    stepSize: 1,
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontColor: "white",
+                    fontSize: 14,
+                    stepSize: 1,
+                    beginAtZero: true
+                }
+            }]
+        },
+        layout:{
+          padding:{
+            left:50,
+            right:0,
+            bottom:0,
+            top:0
+          }
+        },
+        tooltips:{
+          enabled:true
+        }
+      },
+      chartArea: {
+        backgroundColor: 'rgba(255, 255, 255, 1)'
+    }
+    });
+  </script>
+
+{% endif %}
+{% endif %}
+
+{% endblock %}
+
+
+

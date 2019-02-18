@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+{% block jumbotron %}
+
+{%  if request.user.is_authenticated %}
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Search For Any Detail</h1>
+        <p>You can search for any attribute of any record here. If you want to use multiple words in a single query, use quotes.</p>
+        <p>Ex: "Tattoo on back"</p>
+      </div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{%  if request.user.is_authenticated %}
+<div class="row"> 
+<div class="col-sm-6 col-sm-offset-3">
+
+{% if form %}
+<form method="POST" action='/search/'>{% csrf_token %}
+{{ form|crispy }}
+    <p align="center"> <input type='submit' value='Search' class ='btn btn-default' /></p>
+</form>
+{% endif %}
+</div>
+
+</div>
+    <br>
+    <br>
+    <div style="font-size: x-large; ">{% if not flag %}
+        <p align="center"> No search results found</p>
+{% endif %}</div>
+{% else %}
+sign in
+{% endif %}
+{% endblock %}

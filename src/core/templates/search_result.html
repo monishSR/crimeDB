@@ -1,0 +1,36 @@
+
+<style type="text/css">
+
+p{
+	font-size: 200%;
+}
+
+#rcorners2 {
+    border-radius: 10px;
+    padding: 20px; 
+    background-color: #8896a4;
+    color: #262020;
+       
+}
+</style>
+
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% for x in records%}
+
+
+<br>
+<p id="rcorners2">&nbsp &nbsp Name : <a href="/view_record?SSN={{x.SSN}}"> {{x.first_name}}&nbsp{{x.middle_name}}&nbsp{{x.last_name}}</a><br> 
+&nbsp &nbsp SSN : {{x.SSN}} &nbsp &nbsp DOB : {{x.dob}}  &nbsp &nbsp Race : {{x.ethnicity}} &nbsp &nbsp Gender : {{ x.sex }} </p>
+<br>
+<br>
+
+<br>
+
+{%endfor%}
+
+{% endblock %}
+<!--{% url 'view_record'}--!>
