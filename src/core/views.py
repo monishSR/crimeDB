@@ -274,10 +274,7 @@ def analyse(request):
             crime = Crime.objects.get(type=string)
             cases = Case.objects.filter(crime=crime.id)
             for case in cases:
-                loc = case.location.encode('ascii', 'ignore')
-                print(loc)
-
-                loc_data[locations.index(loc.rstrip('\n'))] += 1
+                loc_data[locations.index(case.location.rstrip())] += 1
 
             print(loc_data)
 
