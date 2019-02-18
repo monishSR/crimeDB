@@ -9,7 +9,7 @@ First we have to install sqlite3, the database our webapp uses.
 
 Then install python packages inside requirements.txt
 ```bash
-    sudo pip3 install -r requi
+    sudo pip3 install -r requirements.txt
 ```
 
 To update our database, do migrate
