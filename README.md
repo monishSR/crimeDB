@@ -23,5 +23,7 @@ To run the website, do runserver
 ```
 
 And for logging in,
-username=monish
-password=test1234$
+```
+    username=monish
+    password=test1234$
+```
