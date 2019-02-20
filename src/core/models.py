@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
 
 # Create your models here.
@@ -44,6 +43,7 @@ class Criminal(models.Model):
                                                       ('s', 'Suspect'),
                                                       ('or', 'On the run')))
     occupation = models.CharField(max_length=30)
+    image = models.ImageField(upload_to='images', default='test_images/1.jpg')
 
 
 class Detective(models.Model):

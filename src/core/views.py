@@ -23,6 +23,8 @@ from django.contrib.auth.decorators import permission_required
 
 from django.contrib.auth.decorators import login_required
 
+import os
+
 criminal_attr = ('SSN',
                  'first_name',
                  'middle_name',
@@ -424,6 +426,7 @@ def import_db_connectedto(request):
                                                 case_id=entry[1])
     f.close()
 
+
 @login_required
 @permission_required('user.is_lawenforcer')
 def entry(request):
@@ -487,3 +490,10 @@ def entry(request):
     return render(request, template, context)
 
 
+def import_db_criminal_img(request):
+    from random import choice
+    criminals = Criminal.objects.all()
+    images = sorted(os.listdir('core/images'))
+    for idx, criminal in enumerate(criminals):
+        criminal.image = 'test_images/' + images[idx % len(images)]
+        criminal.save()

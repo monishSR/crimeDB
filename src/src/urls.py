@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^view_record/', core_views.view_record, name='viewRec'),
      url(r'^accounts/', include('allauth.urls')),
      url(r'^import_db_criminal/$', core_views.import_db_criminal, name='import_db_criminal'),
+    url(r'^import_db_criminal_img/$', core_views.import_db_criminal_img, name='import_db_criminal_img'),
      url(r'^import_db_detective/$', core_views.import_db_detective, name='import_db_detective'),
      url(r'^import_db_dependent/$', core_views.import_db_dependent, name='import_db_dependent'),
      url(r'^import_db_crime/$', core_views.import_db_crime, name='import_db_crime'),
@@ -39,3 +40,4 @@ urlpatterns = [
     url(r'^entryFormx/', core_views.entry,name='entryForm'),
     url(r'^profile/$', profiles_views.userProfile, name='profile'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
