@@ -29,14 +29,11 @@ th, tr {
 figure {
     float: right;
     display: inline-block;
-    border: 1px dotted gray;
+    border: 2px dotted black;
     margin: 20px; /* adjust as needed */
 }
-figure img {
-    vertical-align: top;
-}
+
 figure figcaption {
-    border: 1px dotted blue;
     text-align: center;
     caption-side: top;
 }
@@ -44,7 +41,7 @@ figure figcaption {
 </head>
 <figure>
 <img alt="Photo" src="{{ record.image.url  }}">
-<figcaption>PHOTO</figcaption>
+<figcaption>{{record.first_name}}<br>{{ record.last_name }}</figcaption>
 </figure>
 <p align="center">CRIMINAL</p><br>
 <table align="center" style="width:40%" border="1" cellspacing="2" cellpadding="0" class="table">
